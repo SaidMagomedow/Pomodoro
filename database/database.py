@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from settings import Settings
 
 settings = Settings()
+
 engine = create_engine(settings.db_url)
 
 
