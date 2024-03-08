@@ -2,7 +2,7 @@
 name = "pomodoro-poetry"
 version = "0.1.0"
 description = ""
-authors = ["said.magomedov <>"]
+authors = ["Said Magomedow <saidmagom@mail.ru>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
