@@ -15,6 +15,7 @@ alembic = "^1.13.1"
 psycopg2-binary = "^2.9.9"
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 redis = "^5.0.1"
+requests = "^2.31.0"
 
 
 [build-system]
