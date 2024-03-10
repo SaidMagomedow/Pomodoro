@@ -12,8 +12,8 @@ class TaskRepository:
         self.db_session = db_session
 
     async def get_tasks(self) -> list[Tasks]:
-        async with self.db_session() as session:
-            task: list[Tasks] = await session.execute(select(Tasks)).scalars().all()
+        async with self.db_session as session:
+            task: list[Tasks] = (await session.execute(select(Tasks))).scalars().all()
         return task
 
     async def get_task(self, task_id: int) -> Tasks | None:
