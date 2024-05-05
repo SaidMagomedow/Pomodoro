@@ -1,3 +1,4 @@
+import datetime
 from dataclasses import dataclass
 from datetime import datetime as dt, timedelta
 from jose import jwt, JWTError
@@ -72,7 +73,7 @@ class AuthService:
     def generate_access_token(self, user_id: str):
         payload = {
             "user_id": user_id,
-            "expire": (dt.utcnow() + timedelta(days=7)).timestamp()
+            "expire": (dt.now(tz=datetime.UTC) + timedelta(days=7)).timestamp()
         }
         encoded_jwt = jwt.encode(payload, self.settings.JWT_SECRET_KEY, algorithm=self.settings.JWT_ENCODE_ALGORITHM)
         return encoded_jwt
