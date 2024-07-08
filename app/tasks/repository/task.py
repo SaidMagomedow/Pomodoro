@@ -21,7 +21,7 @@ class TaskRepository:
         return task
 
     async def get_user_task(self, task_id: int, user_id: int) -> Tasks | None:
-        query = select(Tasks).where(Tasks.id == task_id, Tasks.user_id == user_id)
+        query = select(Tasks, Categories).join(Categories, Categories.id == Tasks.category_id).where(Tasks.id == task_id, Tasks.user_id == user_id)
         async with self.db_session as session:
             task: Tasks = (await session.execute(query)).scalar_one_or_none()
         return task
