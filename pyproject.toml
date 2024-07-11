@@ -26,6 +26,8 @@ pytest-trio = "^0.8.0"
 pytest-twisted = "^1.14.1"
 twisted = "^24.3.0"
 pytest-factoryboy = "^2.7.0"
+celery = "^5.4.0"
+flower = "^2.0.1"
 
 
 [build-system]

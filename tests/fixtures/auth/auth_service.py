@@ -2,6 +2,7 @@ import pytest
 import pytest_asyncio
 
 from app.settings import Settings
+from app.users.auth.client import MailClient
 from app.users.auth.service import AuthService
 from app.users.user_profile.repository import UserRepository
 
@@ -12,7 +13,8 @@ def mock_auth_service(yandex_client, google_client, fake_user_repository):
         user_repository=fake_user_repository,
         settings=Settings(),
         google_client=google_client,
-        yandex_client=yandex_client
+        yandex_client=yandex_client,
+        mail_client=MailClient()
     )
 
 
@@ -22,5 +24,6 @@ async def auth_service(yandex_client, google_client, mock_auth_service, get_db_s
         user_repository=UserRepository(db_session=get_db_session),
         settings=Settings(),
         google_client=google_client,
-        yandex_client=yandex_client
+        yandex_client=yandex_client,
+        mail_client=MailClient()
     )
