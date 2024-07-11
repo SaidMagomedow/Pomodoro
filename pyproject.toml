@@ -28,6 +28,7 @@ twisted = "^24.3.0"
 pytest-factoryboy = "^2.7.0"
 celery = "^5.4.0"
 flower = "^2.0.1"
+amqp = "^5.2.0"
 
 
 [build-system]
