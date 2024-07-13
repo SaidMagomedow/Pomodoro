@@ -14,7 +14,7 @@ def mock_auth_service(yandex_client, google_client, fake_user_repository):
         settings=Settings(),
         google_client=google_client,
         yandex_client=yandex_client,
-        mail_client=MailClient()
+        mail_client=MailClient(settings=Settings())
     )
 
 
@@ -25,5 +25,5 @@ async def auth_service(yandex_client, google_client, mock_auth_service, get_db_s
         settings=Settings(),
         google_client=google_client,
         yandex_client=yandex_client,
-        mail_client=MailClient()
+        mail_client=MailClient(settings=Settings())
     )

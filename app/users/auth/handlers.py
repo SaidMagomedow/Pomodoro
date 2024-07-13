@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import RedirectResponse
 
 from app.dependecy import get_auth_service
@@ -18,9 +18,8 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 )
 async def login(
     body: UserCreateSchema,
-    auth_service: Annotated[AuthService, Depends(get_auth_service)]
+    auth_service: Annotated[AuthService, Depends(get_auth_service)],
 ):
-
     try:
         return await auth_service.login(body.username, body.password)
 
