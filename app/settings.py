@@ -21,7 +21,9 @@ class Settings(BaseSettings):
     YANDEX_SECRET_KEY: str = ''
     YANDEX_REDIRECT_URI: str = ''
     YANDEX_TOKEN_URL: str = 'https://oauth.yandex.ru/token'
-    AMQP_URL: str = 'amqp://guest:guest@localhost:5672//'
+    BROKER_URL: str = 'localhost:9092'
+    EMAIL_TOPIC: str = 'email_topic'
+    EMAIL_CALLBACK_TOPIC: str = 'callback_email_topic'
 
     @property
     def db_url(self):

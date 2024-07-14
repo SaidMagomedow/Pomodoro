@@ -30,6 +30,7 @@ celery = "^5.4.0"
 flower = "^2.0.1"
 amqp = "^5.2.0"
 aio-pika = "^9.4.2"
+aiokafka = "^0.11.0"
 
 
 [build-system]
