@@ -34,6 +34,17 @@ aio-pika = "^9.4.2"
 aiokafka = "^0.11.0"
 
 
+[tool.poetry.dev-dependencies]
+black = "^24.8.0"
+ruff = "^0.5.6"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+line-length = 120
+
+[tool.ruff]
+line-length = 120

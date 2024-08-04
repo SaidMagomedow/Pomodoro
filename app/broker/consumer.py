@@ -1,4 +1,3 @@
-import json
 from dataclasses import dataclass
 from aiokafka import AIOKafkaConsumer
 

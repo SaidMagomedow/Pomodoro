@@ -17,9 +17,7 @@ class UserRepository:
             return (await session.execute(query)).scalar_one_or_none()
 
     async def create_user(self, user_data: UserCreateSchema) -> UserProfile:
-        query = insert(UserProfile).values(
-            **user_data.dict(exclude_none=True)
-        ).returning(UserProfile.id)
+        query = insert(UserProfile).values(**user_data.dict(exclude_none=True)).returning(UserProfile.id)
         async with self.db_session as session:
             user_id: int = (await session.execute(query)).scalar()
             await session.commit()

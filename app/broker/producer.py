@@ -18,9 +18,6 @@ class BrokerProducer:
         encode_email_data = json.dumps(email_data).encode()
         await self.open_connection()
         try:
-            await self.producer.send(
-                topic=self.email_topic,
-                value=encode_email_data
-            )
+            await self.producer.send(topic=self.email_topic, value=encode_email_data)
         finally:
             await self.close_connection()

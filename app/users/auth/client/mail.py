@@ -1,8 +1,6 @@
-import json
 import uuid
 from dataclasses import dataclass
 
-import aio_pika
 
 from app.broker.producer import BrokerProducer
 
@@ -19,7 +17,7 @@ class MailClient:
             "message": "Welcome to pomodoro",
             "user_email": to,
             "subject": "Welcome message",
-            "correlation_id": str(uuid.uuid4())
+            "correlation_id": str(uuid.uuid4()),
         }
         await self.broker_producer.send_welcome_email(email_data=email_body)
 

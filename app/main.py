@@ -2,9 +2,7 @@ from contextlib import asynccontextmanager
 
 from app.dependecy import get_tasks_repository
 from app.tasks.repository.task import TaskRepository
-from fastapi import FastAPI, HTTPException, status, Depends
-from sqlalchemy import text
-from sqlalchemy.exc import IntegrityError
+from fastapi import FastAPI, Depends
 
 from app.tasks.handlers import router as tasks_router
 from app.users.auth.handlers import router as auth_router
