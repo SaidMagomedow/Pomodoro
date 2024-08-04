@@ -1,6 +1,8 @@
 from sqlalchemy import select, delete, update, insert
 from sqlalchemy.ext.asyncio import AsyncSession
-
+from fastapi import HTTPException, status
+from sqlalchemy import text
+from sqlalchemy.exc import IntegrityError
 from app.tasks.models import Tasks, Categories
 from app.tasks.schema import TaskCreateSchema
 
@@ -9,6 +11,14 @@ class TaskRepository:
 
     def __init__(self, db_session: AsyncSession):
         self.db_session = db_session
+    
+    async def ping_db(self) -> None:
+        async with self.db_session as session:
+            try:
+                await session.execute(text("SELECT 1"))
+            except IntegrityError:
+                raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Database is not available")
+            return {"text": "db is working"}
 
     async def get_tasks(self) -> list[Tasks]:
         async with self.db_session as session:

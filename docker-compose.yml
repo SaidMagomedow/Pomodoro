@@ -1,6 +1,10 @@
 version: '3.9'
 
 services:
+  app:
+    build: .
+    ports:
+      - '8000:8000'
 
   db:
     image: postgres:16.3-alpine
@@ -13,66 +17,66 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: pomodoro
 
-  cache:
-    image: redis:7.2.4-alpine
-    restart: always
-    ports:
-      - '6379:6379'
+  # cache:
+  #   image: redis:7.2.4-alpine
+  #   restart: always
+  #   ports:
+  #     - '6379:6379'
 
-  rabbitmq:
-    image: rabbitmq:latest
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+  # rabbitmq:
+  #   image: rabbitmq:latest
+  #   ports:
+  #     - "5672:5672"
+  #     - "15672:15672"
 
-  zookeeper:
-    image: confluentinc/cp-zookeeper:5.4.10-1-ubi8
-    restart: always
-    environment:
-      ZOOKEEPER_SERVER_ID: 1
-      ZOOKEEPER_CLIENT_PORT: "2181"
-      ZOOKEEPER_SERVERS: "zookeeper:22888:23888"
-    ports:
-      - "2181:2181"
+  # zookeeper:
+  #   image: confluentinc/cp-zookeeper:5.4.10-1-ubi8
+  #   restart: always
+  #   environment:
+  #     ZOOKEEPER_SERVER_ID: 1
+  #     ZOOKEEPER_CLIENT_PORT: "2181"
+  #     ZOOKEEPER_SERVERS: "zookeeper:22888:23888"
+  #   ports:
+  #     - "2181:2181"
 
-  kafka:
-    image: confluentinc/cp-kafka:7.2.2
-    depends_on:
-      - zookeeper
-    ports:
-      # Exposes 29092 for external connections to the broker
-      # Use kafka1:9092 for connections internal on the docker network
-      # See https://rmoff.net/2018/08/02/kafka-listeners-explained/ for details
-      - "19092:19092"
-    environment:
-      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:19092
-      KAFKA_BROKER_ID: 1
-      KAFKA_DELETE_TOPIC_ENABLE: "true"
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-      KAFKA_SCHEMA_REGISTRY_URL: "schemaregistry:8085"
-      KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
-      KAFKA_JMX_PORT: 9991
+  # kafka:
+  #   image: confluentinc/cp-kafka:7.2.2
+  #   depends_on:
+  #     - zookeeper
+  #   ports:
+  #     # Exposes 29092 for external connections to the broker
+  #     # Use kafka1:9092 for connections internal on the docker network
+  #     # See https://rmoff.net/2018/08/02/kafka-listeners-explained/ for details
+  #     - "19092:19092"
+  #   environment:
+  #     KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:19092
+  #     KAFKA_BROKER_ID: 1
+  #     KAFKA_DELETE_TOPIC_ENABLE: "true"
+  #     KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+  #     KAFKA_SCHEMA_REGISTRY_URL: "schemaregistry:8085"
+  #     KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
+  #     KAFKA_JMX_PORT: 9991
 
-  schemaregistry:
-    image: confluentinc/cp-schema-registry:5.4.10
-    restart: always
-    depends_on:
-      - zookeeper
-    environment:
-      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: "zookeeper:2181"
-      SCHEMA_REGISTRY_HOST_NAME: schemaregistry
-      SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8085"
-    ports:
-      - 18085:8085
+  # schemaregistry:
+  #   image: confluentinc/cp-schema-registry:5.4.10
+  #   restart: always
+  #   depends_on:
+  #     - zookeeper
+  #   environment:
+  #     SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: "zookeeper:2181"
+  #     SCHEMA_REGISTRY_HOST_NAME: schemaregistry
+  #     SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8085"
+  #   ports:
+  #     - 18085:8085
 
-  kafdrop:
-    image: obsidiandynamics/kafdrop:3.31.0-SNAPSHOT
-    depends_on:
-      - kafka
-      - schemaregistry
-    ports:
-      - 19000:9000
-    environment:
-      KAFKA_BROKERCONNECT: kafka:9092
-      CMD_ARGS: "--message.format=AVRO --message.keyFormat=DEFAULT --schemaregistry.connect=http://schemaregistry:8085"
+  # kafdrop:
+  #   image: obsidiandynamics/kafdrop:3.31.0-SNAPSHOT
+  #   depends_on:
+  #     - kafka
+  #     - schemaregistry
+  #   ports:
+  #     - 19000:9000
+  #   environment:
+  #     KAFKA_BROKERCONNECT: kafka:9092
+  #     CMD_ARGS: "--message.format=AVRO --message.keyFormat=DEFAULT --schemaregistry.connect=http://schemaregistry:8085"
