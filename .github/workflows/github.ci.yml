@@ -48,3 +48,19 @@ jobs:
           poetry install
       - name: Run Unit Tests
         run: poetry run pytest tests/unit
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Server
+      uses: D3rHase/ssh-command-action@v0.2.2
+      with:
+        host: ${{secrets.SSH_HOST}}
+        user: ${{secrets.SSH_USER}}
+        private_key: ${{secrets.SSH_PRIVATE_KEY}}
+        command: |
+            SCRIPT_AFTER: |
+              cd Pomodoro
+              git pull
+              docker-compose stop
+              docker-compose up
