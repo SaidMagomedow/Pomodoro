@@ -49,18 +49,23 @@ jobs:
       - name: Run Unit Tests
         run: poetry run pytest tests/unit
 
-  build:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Deploy to Server
-      uses: D3rHase/ssh-command-action@v0.2.2
-      with:
-        host: ${{secrets.SSH_HOST}}
-        user: ${{secrets.SSH_USER}}
-        private_key: ${{secrets.SSH_PRIVATE_KEY}}
-        command: |
-            SCRIPT_AFTER: |
-              cd Pomodoro
-              git pull
-              docker-compose stop
-              docker-compose up
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to server via SSH
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            cd ${{ secrets.PROJECT_FOLDER }} &&
+            git pull &&
+            docker-compose down
+            docker-compose up -d
+          "
