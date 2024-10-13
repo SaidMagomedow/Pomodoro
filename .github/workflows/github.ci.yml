@@ -51,6 +51,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    environment: pomodoro
 
     steps:
       - name: Checkout code
